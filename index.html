@@ -21,7 +21,9 @@
             <div class="row">
                 <div class="col">
                     <h2>General Messages</h2>
-                    
+                    <div id="message-cal-display">
+
+                    </div>
                     <h2>Events of Today</h2>
                     <div id="cal-display">
 
@@ -29,7 +31,7 @@
                 </div>
                 <div class="col">
                         <h2 class="text-right">Tasks to Complete</h2>
-                        <div id="task-display">
+                        <div id="first-shift-task-display">
     
                         </div>
                 </div>
@@ -42,8 +44,7 @@
         <template id="calendar-block">
             <div class="card">
                 <div class="card-block">
-                    <h4 class="card-title"><span class="time"></span></h4>
-                    <h6 class="card-subtitle mb-2 text-muted"><span class="room"></span></h6>
+                    <h5 class="card-title"><span class="time"></span> | <span class="card-subtitle mb-2 text-muted room"></span></h5>
                     <p class="card-text"><span class="summary"></span></p>
                 </div>
             </div>

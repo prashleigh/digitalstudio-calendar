@@ -1,3 +1,7 @@
 .card-block {
     padding: 0.6rem;
 }
+
+.card-title {
+    margin-bottom: 0.25rem;
+}
