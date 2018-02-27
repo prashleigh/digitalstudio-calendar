@@ -19,21 +19,23 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
-                    <h2>General Messages</h2>
-                    <div id="message-cal-display">
-
+                <div class="col-md-6">
+                    <div class = "panel panel-default">
+                        <div class = "panel-heading">General Messages</div>
+                        <div class = "panel-body" id="message-cal-display"></div>
                     </div>
-                    <h2>Events of Today</h2>
-                    <div id="cal-display">
 
+                    <div class = "panel panel-primary">
+                        <div class = "panel-heading">Today's Events</div>
+                        <div class = "panel-body" id="cal-display"></div>
                     </div>
+
                 </div>
-                <div class="col">
-                        <h2 class="text-right">Tasks to Complete</h2>
-                        <div id="first-shift-task-display">
-    
-                        </div>
+                <div class="col-md-6">
+                    <div class = "panel panel-default">
+                        <div class = "panel-heading">Tasks to Complete</div>
+                        <div class = "panel-body" id="task-cal-display"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,8 +46,14 @@
         <template id="calendar-block">
             <div class="card">
                 <div class="card-block">
-                    <h5 class="card-title"><span class="time"></span> | <span class="card-subtitle mb-2 text-muted room"></span></h5>
-                    <p class="card-text"><span class="summary"></span></p>
+                    <h5 class="card-title"><span class="summary"></span><span class="time"></span><span class="card-subtitle mb-2 text-muted room"></span></h5>
+                </div>
+            </div>
+        </template>
+        <template id="message-block">
+            <div class="card">
+                <div class="card-block">
+                    <h5 class="card-title"><span class="message"></span></h5>
                 </div>
             </div>
         </template>

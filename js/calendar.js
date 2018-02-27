@@ -30,6 +30,25 @@ class Calendar {
         });
     }
 
+    get futureEvents() {
+        let self = this;
+        return new Promise(function(resolve, reject) {
+            let date = new Date();
+            let startDate = date;
+            let path = new URL(self.location + "/calendars/" + self.id + "/events");
+            path.searchParams.append("timeMin", startDate.toISOString());
+            path.searchParams.append("singleEvents", "true");
+            gapi.client.request({
+                "path": path.toString()
+            }).then(function(response) {
+                resolve(response.result);
+            },
+            function(reason) {
+                reject(reason);
+            });
+        });
+    }
+
     eventsUntil(date) {
         let self = this;
         return new Promise(function(resolve, reject) {
