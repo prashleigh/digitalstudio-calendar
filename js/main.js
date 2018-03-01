@@ -6,6 +6,14 @@ class CalendarDisplay {
         window.setInterval(() => this.update(), 1000 * 60 * .1); // 10 second interval to update
     }
 
+    _onlyToday() {
+        return true;
+    }
+    
+    _allDay()  {
+        return false;
+    }
+
     async update() {
         let self = this;
         console.log("update")
@@ -16,9 +24,22 @@ class CalendarDisplay {
         for (let cal of this.calendars) {
             promises.push(
                 new Promise(async function(resolve, reject) {
-                    let results = await cal.eventsForToday;
+                    let results;
+                    if (self._onlyToday()) {
+                        results = await cal.eventsForToday;
+                    } else {
+                        results = await cal.futureEvents;
+                    }
                     for (let event of results.items) {
-                        events.push({"event": event, "calSummary": results.summary});
+                        if (self._allDay()) {
+                            if (event.start.date) {
+                                events.push({"event": event, "calSummary": results.summary});
+                            }
+                        } else {
+                            if (event.start.dateTime) {
+                                events.push({"event": event, "calSummary": results.summary});
+                            }
+                        }
                     }
                     resolve();
                 })
@@ -52,94 +73,23 @@ class CalendarDisplay {
 
 class AllDayEvents extends CalendarDisplay{
 
-    async update() {
-        let self = this;
-        console.log("update")
-        let events = [];
-
-        let promises = [];
-        console.log(this.calendars)
-        for (let cal of this.calendars) {
-            promises.push(
-                new Promise(async function(resolve, reject) {
-                    let results = await cal.eventsForToday;
-                    for (let event of results.items) {
-                        if (event.start.date) {
-                            console.log(event.start.date)
-                            console.log(event.start.dateTime)
-                            events.push({"event": event, "calSummary": results.summary});
-                        }
-                    }
-                    resolve();
-                })
-                )
-        }
-
-        let promise = Promise.all(promises);
-
-        promise.then(function() {
-
-            document.getElementById(self.id).innerHTML = "";
-            if (events.length > 0) {
-                for (let event of events) {
-                    let elTemplate = document.getElementById("calendar-block");
-                    elTemplate.content.querySelectorAll(".summary")[0].textContent = formatMessage(event, self.id);
-                    let el = document.importNode(elTemplate.content, true);
-                    // el.innerHTML = "(" + new Date(event.event.start.dateTime).toLocaleString() + "): " + (event.calSummary || "No room specified") + " | " + (event.event.summary || "No summary provided.");
-                    document.getElementById(self.id).appendChild(el);
-                }
-            } else {
-                document.getElementById(self.id).innerHTML = "Nothing for today!";
-            }
-        });    
+    _onlyToday() {
+        return true;
+    }
+    
+    _allDay()  {
+        return true;
     }
 }
 
 class FutureEvents extends CalendarDisplay {
 
-    async update() {
-        let self = this;
-        console.log("update")
-        let events = [];
-
-        let promises = [];
-        console.log(this.calendars)
-        for (let cal of this.calendars) {
-            promises.push(
-                new Promise(async function(resolve, reject) {
-                    let results = await cal.futureEvents;
-                    for (let event of results.items) {
-                        if (event.start.dateTime) {
-                            events.push({"event": event, "calSummary": results.summary});
-                        }
-                    }
-                    resolve();
-                })
-                )
-        }
-
-        let promise = Promise.all(promises);
-
-        promise.then(function() {
-            events.sort(function(left, right) {
-                let leftTime = new Date(left.event.start.dateTime);
-                let rightTime = new Date(right.event.start.dateTime);
-                return leftTime < rightTime ? -1 : leftTime == rightTime ? 0 : 1;
-            });
-
-            document.getElementById(self.id).innerHTML = "";
-            if (events.length > 0) {
-                for (let event of events) {
-                    let elTemplate = document.getElementById("calendar-block");
-                    elTemplate.content.querySelectorAll(".summary")[0].textContent = formatMessage(event, self.id)
-                    let el = document.importNode(elTemplate.content, true);
-                    // el.innerHTML = "(" + new Date(event.event.start.dateTime).toLocaleString() + "): " + (event.calSummary || "No room specified") + " | " + (event.event.summary || "No summary provided.");
-                    document.getElementById(self.id).appendChild(el);
-                }
-            } else {
-                document.getElementById(self.id).innerHTML = "No tasks right now!";
-            }
-        });    
+    _onlyToday() {
+        return false;
+    }
+    
+    _allDay()  {
+        return false;
     }
 }
 
