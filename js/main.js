@@ -16,11 +16,11 @@ class CalendarDisplay {
 
     async update() {
         let self = this;
-        console.log("update")
+        // console.log("update")
         let events = [];
 
         let promises = [];
-        console.log(this.calendars)
+        // console.log(this.calendars)
         for (let cal of this.calendars) {
             promises.push(
                 new Promise(async function(resolve, reject) {
@@ -59,7 +59,7 @@ class CalendarDisplay {
             if (events.length > 0) {
                 for (let event of events) {
                     let elTemplate = document.getElementById("calendar-block");
-                    elTemplate.content.querySelectorAll(".summary")[0].textContent = formatMessage(event, self.id)
+                    elTemplate.content.querySelectorAll(".summary")[0].textContent = formatMessage(event, self.id);
                     let el = document.importNode(elTemplate.content, true);
                     // el.innerHTML = "(" + new Date(event.event.start.dateTime).toLocaleString() + "): " + (event.calSummary || "No room specified") + " | " + (event.event.summary || "No summary provided.");
                     document.getElementById(self.id).appendChild(el);
@@ -121,12 +121,11 @@ function formatDate(event, display) {
 function formatMessage(event, display) {
     switch (display) {
         case "cal-display":
-            console.log(event.calSummary)
             return event.event.summary + " (" + roomMap[event.calSummary] + " " + formatDate(event, display) + ")";
         case "message-cal-display":
-            return event.event.summary
+            return event.event.summary;
         case "task-cal-display":
-            return event.event.summary + " " + formatDate(event, display)
+            return event.event.summary + " " + formatDate(event, display);
         default:
             return "Unexpected Error in formatMessage";
     }
@@ -167,11 +166,11 @@ function init() {
     eventCalendars.push(new Calendar("https://www.googleapis.com/calendar/v3", digitalStudioRoom));
     generalCalendar.push(new Calendar("https://www.googleapis.com/calendar/v3", digitalStudioBrown));
 
-    roomMap["LIB Rock DSL 137"] = "DSL"
-    roomMap["LIB-Digital A/V Suite 153-154"] = "A/V Suite"
-    roomMap["LIB-Digital Consulting Room 158"] = "Consulting Room"
-    roomMap["LIB-Digital Seminar Room 160"] = "Seminar Room"
-    roomMap["LIB-Digital Studio 155-156"] = "Digital Studio"
+    roomMap["LIB Rock DSL 137"] = "DSL";
+    roomMap["LIB-Digital A/V Suite 153-154"] = "A/V Suite";
+    roomMap["LIB-Digital Consulting Room 158"] = "Consulting Room";
+    roomMap["LIB-Digital Seminar Room 160"] = "Seminar Room";
+    roomMap["LIB-Digital Studio 155-156"] = "Digital Studio";
 
     let tasksCalendar = new FutureEvents(generalCalendar, "task-cal-display");
     let todayEvents = new CalendarDisplay(eventCalendars, "cal-display");
