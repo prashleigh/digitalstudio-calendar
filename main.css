@@ -13,3 +13,17 @@
 .card {
 	margin-bottom: 1em;
 }
+
+.desc {
+	margin-left: 1em;
+	margin-right: 1em;
+	padding-bottom: 0.5em;
+}
+
+.desc:empty {
+	padding: 0em;
+}
+
+.summary {
+	background-color: #e3e3e3;
+}
