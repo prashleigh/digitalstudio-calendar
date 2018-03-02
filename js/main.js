@@ -60,7 +60,7 @@ class CalendarDisplay {
                 for (let event of events) {
                     let elTemplate = document.getElementById("calendar-block");
                     elTemplate.content.querySelectorAll(".summary")[0].textContent = formatMessage(event, self.id);
-                    elTemplate.content.querySelectorAll(".desc")[0].textContent = event.event.description ? event.event.description.replace("\r\n", " ") : "";
+                    elTemplate.content.querySelectorAll(".desc")[0].textContent = event.event.description ? event.event.description.replace("\r\n", " ").replace(/<\/*[^>]+>/g, " ").replace(/\&[^;]+;/g, "") : "";
                     let el = document.importNode(elTemplate.content, true);
                     // el.innerHTML = "(" + new Date(event.event.start.dateTime).toLocaleString() + "): " + (event.calSummary || "No room specified") + " | " + (event.event.summary || "No summary provided.");
                     document.getElementById(self.id).appendChild(el);
