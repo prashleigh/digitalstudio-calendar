@@ -67,6 +67,8 @@ class CalendarDisplay {
                 }
             } else {
                 document.getElementById(self.id).innerHTML = "Nothing left for today!";
+                document.getElementById(self.id).style = "padding-left: 1em; padding-bottom: .5em;";
+                console.log(document.getElementById(self.id));
             }
         });    
     }
