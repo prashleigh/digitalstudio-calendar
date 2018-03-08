@@ -4,10 +4,15 @@
 
 .card-title {
     margin-bottom: 0.5rem;
+    font-size: 1.2rem;
 }
 
 .page-title {
 	margin: 1em;
+}
+
+h1 {
+	font-size: 1.5rem;
 }
 
 .card {
@@ -31,3 +36,8 @@
 .empty-list {
 	padding: 1em;
 }
+
+body {
+	font-size: 0.8rem;
+}
+
