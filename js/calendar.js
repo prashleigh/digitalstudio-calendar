@@ -4,6 +4,7 @@ class Calendar {
     constructor(apiLocation, calendarId) {
         this.location = apiLocation;
         this.id = calendarId;    
+        this.endDate = null;
     }
 
     get eventsForToday() {
@@ -49,11 +50,17 @@ class Calendar {
         });
     }
 
-    eventsUntil(date) {
+    wrapperUntil(time) {
+        this.endDate = time;
+    }
+
+    get eventsUntil() {
+        // Takes in a date object
         let self = this;
         return new Promise(function(resolve, reject) {
-            let startDate = new Date();
-            let endDate = date
+            let date = new Date();
+            let startDate = date;
+            let endDate = self.endDate;
             let path = new URL(self.location + "/calendars/" + self.id + "/events");
             path.searchParams.append("timeMax", endDate.toISOString());
             path.searchParams.append("timeMin", startDate.toISOString());

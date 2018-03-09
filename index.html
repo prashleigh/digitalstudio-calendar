@@ -1,54 +1,58 @@
 <!doctype html>
 <html>
-    <head>
-        <title>Digital Studio Calendar</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="main.css">
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-        <script src="https://apis.google.com/js/api.js"></script>
-        <script src="js/calendar.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/keys.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="col text-center page-title">
-                    <h1>Digital Studio Events and Bookings</h1>
+<head>
+    <title>Digital Studio Calendar</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/keys.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center page-title">
+                <h1>Digital Studio Events and Bookings</h1>
+            </div>
+        </div> 
+        <div class="row">
+            <div class = "card mx-auto msg">
+                <div class = "card-block">
+                    <h4 class = "card-title">General Messages</h4>
+                </div>
+                <ul class = "list-group list-group-flush" id="message-cal-display"></ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class = "card">
+                    <div class = "card-block">
+                        <h4 class = "card-title">Today's Events</h4>
+                    </div>
+                    <ul class = "list-group list-group-flush" id="cal-display"></ul>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class = "card">
-                        <div class = "card-block">
-                        <h4 class = "card-title">General Messages</h4></div>
-                        <ul class = "list-group list-group-flush" id="message-cal-display"></ul>
+
+            <div class="col-md-6">
+                <div class = "card">
+                    <div class = "card-block">
+                        <h4 class = "card-title">Tasks to Complete</h4>
                     </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class = "card">
-                        <div class = "card-block">
-                        <h4 class = "card-title">Today's Events</h4></div>
-                        <ul class = "list-group list-group-flush" id="cal-display"></ul>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class = "card">
-                        <div class = "card-block">
-                        <h4 class = "card-title">Tasks to Complete</h4></div>
-                        <ul class = "list-group list-group-flush" id="task-cal-display"></ul>
-                    </div>
+                    <ul class = "list-group list-group-flush" id="task-cal-display"></ul>
                 </div>
             </div>
         </div>
-        <script>
-            // 1. Load the JavaScript client library.
-            gapi.load('client:auth2', start);
-        </script>
-        <template id="calendar-block">
-            <li class="summary list-group-item"></li><footer class = "desc"></footer>
-        </template>
-    </body>
+    </div>
+    <script>
+        // 1. Load the JavaScript client library.
+        gapi.load('client:auth2', start);
+    </script>
+    <template id="calendar-block">
+        <li class="summary list-group-item"></li><footer class = "desc"></footer>
+    </template>
+</body>
 </html>
