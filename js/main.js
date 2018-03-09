@@ -91,7 +91,7 @@ class AllDayEvents extends EventsDisplay{
                 })
                 )
         }
-        self.display(promises, events)
+        self.display(promises, events);
     }
 }
 
@@ -122,11 +122,44 @@ class FutureEvents extends EventsDisplay {
                 })
                 )
         }
-        self.display(promises, events)
+        self.display(promises, events);
     }
 }
 
-class roomReminders extends 
+class roomReminders extends FutureDisplay {
+
+    async display(promises, events) {
+        let self = this;
+        let promise = Promise.all(promises);
+
+        promise.then(function() {
+            events.sort(function(left, right) {
+                let leftTime = new Date(left.event.start.dateTime);
+                let rightTime = new Date(right.event.start.dateTime);
+                return leftTime < rightTime ? -1 : leftTime == rightTime ? 0 : 1;
+            });
+
+            document.getElementById(self.id).innerHTML = "";
+            if (events.length > 0) {
+                document.getElementById(self.id).parentElement.style.display = "block";
+                for (let event of events) {
+                    let elTemplate = document.getElementById("calendar-block");
+                    elTemplate.content.querySelectorAll(".summary")[0].textContent = "Put reminder up for " +
+                                                                                    event.event.summary + " in " +
+                                                                                    roomMap[event.calSummary] + " at " +
+                                                                                    formatDate(event, "cal-display");
+                    let el = document.importNode(elTemplate.content, true);
+                    // el.innerHTML = "(" + new Date(event.event.start.dateTime).toLocaleString() + "): " + (event.calSummary || "No room specified") + " | " + (event.event.summary || "No summary provided.");
+                    document.getElementById(self.id).appendChild(el);
+                }
+            } else {
+                document.getElementById(self.id).innerHTML = "Nothing left!";
+                document.getElementById(self.id).style = "padding-left: 1em; padding-bottom: .5em;";
+                console.log(document.getElementById(self.id));
+            }
+        }); 
+    }
+}
 
 function formatDate(event, display) {
     switch (display) {
