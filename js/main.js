@@ -3,7 +3,7 @@ class EventsDisplay {
         this.calendars = calendars;
         this.id = id;
         this.update();
-        window.setInterval(() => this.update(), 1000 * 60 * .1); // 10 second interval to update
+        window.setInterval(() => this.update(), 1000 * 60 * 1); // 60 second interval to update
     }
 
     async update() {
@@ -57,9 +57,7 @@ class EventsDisplay {
                     document.getElementById(self.id).appendChild(el);
                 }
             } else {
-                document.getElementById(self.id).innerHTML = "Nothing left!";
-                document.getElementById(self.id).style = "padding-left: 1em; padding-bottom: .5em;";
-                console.log(document.getElementById(self.id));
+
             }
         });    
     }
@@ -126,7 +124,7 @@ class FutureEvents extends EventsDisplay {
     }
 }
 
-class roomReminders extends FutureDisplay {
+class remindersDisplay extends FutureEvents {
 
     async display(promises, events) {
         let self = this;
@@ -139,23 +137,28 @@ class roomReminders extends FutureDisplay {
                 return leftTime < rightTime ? -1 : leftTime == rightTime ? 0 : 1;
             });
 
-            document.getElementById(self.id).innerHTML = "";
             if (events.length > 0) {
                 document.getElementById(self.id).parentElement.style.display = "block";
+                let reminded = new Set([]);
                 for (let event of events) {
-                    let elTemplate = document.getElementById("calendar-block");
-                    elTemplate.content.querySelectorAll(".summary")[0].textContent = "Put reminder up for " +
-                                                                                    event.event.summary + " in " +
-                                                                                    roomMap[event.calSummary] + " at " +
-                                                                                    formatDate(event, "cal-display");
-                    let el = document.importNode(elTemplate.content, true);
-                    // el.innerHTML = "(" + new Date(event.event.start.dateTime).toLocaleString() + "): " + (event.calSummary || "No room specified") + " | " + (event.event.summary || "No summary provided.");
-                    document.getElementById(self.id).appendChild(el);
+                    if (reminded.has(event.calSummary)) {
+
+                    } else {
+                        reminded.add(event.calSummary);
+                        let elTemplate = document.getElementById("calendar-block");
+                        elTemplate.content.querySelectorAll(".summary")[0].textContent = "Put reminder up for " +
+                                                                                        event.event.summary + " in " +
+                                                                                        roomMap[event.calSummary] + " at " +
+                                                                                        formatDate(event, "task-cal-display");
+                        console.log("Put reminder up for " +
+                        event.event.summary + " in " +
+                        roomMap[event.calSummary] + " at " +
+                        formatDate(event, "task-cal-display"))
+                        let el = document.importNode(elTemplate.content, true);
+                        // el.innerHTML = "(" + new Date(event.event.start.dateTime).toLocaleString() + "): " + (event.calSummary || "No room specified") + " | " + (event.event.summary || "No summary provided.");
+                        document.getElementById(self.id).appendChild(el);
+                    }
                 }
-            } else {
-                document.getElementById(self.id).innerHTML = "Nothing left!";
-                document.getElementById(self.id).style = "padding-left: 1em; padding-bottom: .5em;";
-                console.log(document.getElementById(self.id));
             }
         }); 
     }
@@ -177,8 +180,13 @@ function formatDate(event, display) {
         return sh + ":" + sm + " - " + eh + ":" + em;
         case "task-cal-display":
         start = new Date(event.event.start.dateTime);
-        startString = start.toLocaleString();
-        start = startString.replace("(:[^:]+):.*", "");
+        sh = start.getHours();
+        sh = sh > 12 ? sh - 12 : sh;
+        sm = start.getMinutes();
+        sm = sm < 10 ? sm = "0" + sm : sm;
+        // startString = start.toLocaleString();
+        // start = startString.replace("(:[^:]+):.*", "");
+        start = sh + ":" + sm
             // week = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."]
             // day = week[start.getDay()];
             return start;
@@ -230,6 +238,7 @@ function init() {
     let generalCalendar = [];
     let eventCalendars = [];
     let shiftCalendars = [];
+    let reminders = [];
 
 
     let consultingCalendar = new Calendar("https://www.googleapis.com/calendar/v3", consultingRoom);
