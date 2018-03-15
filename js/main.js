@@ -145,15 +145,11 @@ class remindersDisplay extends FutureEvents {
 
                     } else {
                         reminded.add(event.calSummary);
-                        let elTemplate = document.getElementById("calendar-block");
+                        let elTemplate = document.getElementById("task-block");
                         elTemplate.content.querySelectorAll(".summary")[0].textContent = "Put reminder up for " +
                                                                                         event.event.summary + " in " +
                                                                                         roomMap[event.calSummary] + " at " +
                                                                                         formatDate(event, "task-cal-display");
-                        console.log("Put reminder up for " +
-                        event.event.summary + " in " +
-                        roomMap[event.calSummary] + " at " +
-                        formatDate(event, "task-cal-display"))
                         let el = document.importNode(elTemplate.content, true);
                         // el.innerHTML = "(" + new Date(event.event.start.dateTime).toLocaleString() + "): " + (event.calSummary || "No room specified") + " | " + (event.event.summary || "No summary provided.");
                         document.getElementById(self.id).appendChild(el);
